@@ -7,7 +7,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <main className="font-work-sans">
+    <main className="work-sans">
       <Navbar />
       {children}
     </main>
