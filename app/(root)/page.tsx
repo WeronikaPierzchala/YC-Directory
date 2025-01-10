@@ -1,24 +1,14 @@
-import { StartupCard } from "../../components/StartupCard";
+import { StartupCard, StartupCardProps } from "../../components/StartupCard";
 import { SearchFom } from "../../components/SearchForm";
+import { client } from "@/sanity/lib/client";
+import { STARTUPS_QUERY } from "@/sanity/lib/queries";
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<{ query?: string }>;
-}) {
+type HomeProps = { searchParams: Promise<{ query?: string }> };
+
+export default async function Home({ searchParams }: HomeProps) {
   const query = (await searchParams).query;
 
-  const posts = Array.from({ length: 5 }).map((_, index) => ({
-    _createdAt: new Date(),
-    views: index + 2,
-    author: { _id: index, name: "Some Name" },
-    id: index,
-    description: "asd asd asasdadsthdf",
-    image:
-      "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
-    category: "Tech",
-    title: "Startup",
-  }));
+  const posts = await client.fetch(STARTUPS_QUERY);
 
   return (
     <>
@@ -39,7 +29,9 @@ export default async function Home({
 
         <ul className="mt-7 card_grid">
           {posts?.length ? (
-            posts.map((post) => <StartupCard key={post.id} post={post} />)
+            posts.map((post: StartupCardProps) => (
+              <StartupCard key={post._id} post={post} />
+            ))
           ) : (
             <p>No posts found</p>
           )}

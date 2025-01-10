@@ -4,14 +4,21 @@ import { EyeIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import type { Author, Startup } from "@/sanity.types";
 
-interface StartupCardProps {
-  post: any;
-}
+export type StartupCardProps = Omit<Startup, "author"> & { author?: Author };
 
-export const StartupCard: React.FC<StartupCardProps> = ({ post }) => {
-  const { _createdAt, views, author, id, title, description, image, category } =
-    post;
+export const StartupCard = ({ post }: { post: StartupCardProps }) => {
+  const {
+    _createdAt,
+    views,
+    author,
+    _id,
+    title,
+    description,
+    image,
+    category,
+  } = post;
 
   return (
     <li className="startup-card group">
@@ -27,9 +34,9 @@ export const StartupCard: React.FC<StartupCardProps> = ({ post }) => {
       <div className="flex-between mt-5 gap-5">
         <div className="flex-1">
           <Link href={`/user/${author?._id}`}>
-            <p className="text-16-medium line-clamp-1">{author.name}</p>
+            <p className="text-16-medium line-clamp-1">{author?.name}</p>
           </Link>
-          <Link href={`/startup/${id}`}>
+          <Link href={`/startup/${_id}`}>
             <h3 className="text-26-semibold line-clamp-1">{title}</h3>
           </Link>
         </div>
@@ -44,18 +51,20 @@ export const StartupCard: React.FC<StartupCardProps> = ({ post }) => {
         </Link>
       </div>
 
-      <Link href={`/startup/${id}`}>
+      <Link href={`/startup/${_id}`}>
         <p className="startup-card_desc">{description}</p>
 
         <img src={image} alt="details image" className="startup-card_img" />
       </Link>
 
       <div className="flex-between gap-3 mt-5">
-        <Link href={`/?query=${category.toLowerCase()}`}>
-          <p className="text-16-medium">{category}</p>
-        </Link>
+        {category && (
+          <Link href={`/?query=${category.toLowerCase()}`}>
+            <p className="text-16-medium">{category}</p>
+          </Link>
+        )}
         <Button className="startup-card_btn" asChild>
-          <Link href={`/start/${id}`}>Details</Link>
+          <Link href={`/start/${_id}`}>Details</Link>
         </Button>
       </div>
     </li>
