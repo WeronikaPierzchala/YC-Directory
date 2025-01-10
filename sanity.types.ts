@@ -171,29 +171,29 @@ export type Markdown = string;
 export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | SanityAssetSourceData | Startup | Slug | Author | Markdown;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
-// Variable: STARTUP_QUERY
-// Query: *[_type == "startup" && defined(slug.current)] | order(_createdAt desc) {  _id, title, slug, _createdAt, views, description, category, image,     author -> {      _id, name, image, bio    }}
-export type STARTUP_QUERYResult = Array<{
+// Variable: STARTUPS_QUERY
+// Query: *[_type == "startup" && defined(slug.current) | order(_createdAt desc)] {  _id,   title,   slug,  _createdAt,  author -> {    _id, name, image, bio  },   views,  description,  category,  image,}
+export type STARTUPS_QUERYResult = Array<{
   _id: string;
   title: string | null;
   slug: Slug | null;
   _createdAt: string;
-  views: number | null;
-  description: string | null;
-  category: string | null;
-  image: string | null;
   author: {
     _id: string;
     name: string | null;
     image: string | null;
     bio: string | null;
   } | null;
+  views: number | null;
+  description: string | null;
+  category: string | null;
+  image: string | null;
 }>;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"startup\" && defined(slug.current)] | order(_createdAt desc) {\n  _id, title, slug, _createdAt, views, description, category, image, \n    author -> {\n      _id, name, image, bio\n    }\n}": STARTUP_QUERYResult;
+    "*[_type == \"startup\" && defined(slug.current) | order(_createdAt desc)] {\n  _id, \n  title, \n  slug,\n  _createdAt,\n  author -> {\n    _id, name, image, bio\n  }, \n  views,\n  description,\n  category,\n  image,\n}": STARTUPS_QUERYResult;
   }
 }
