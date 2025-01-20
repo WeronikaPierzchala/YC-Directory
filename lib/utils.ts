@@ -12,3 +12,6 @@ export function formatDate(date: string) {
     day: "numeric",
   });
 }
+
+export const formatNumber = (count: number, singular: string, plural: string) =>
+  `${count} ${count === 1 ? singular : plural}`;

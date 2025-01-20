@@ -64,7 +64,7 @@ export const StartupCard = ({ post }: { post: StartupCardProps }) => {
           </Link>
         )}
         <Button className="startup-card_btn" asChild>
-          <Link href={`/start/${_id}`}>Details</Link>
+          <Link href={`/startup/${_id}`}>Details</Link>
         </Button>
       </div>
     </li>
